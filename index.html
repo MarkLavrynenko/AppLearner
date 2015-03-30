@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+	<head>
+		<title>English learner</title>
+		<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="1.css">
+		<meta charset="utf-8">
+	</head>
+	<body ng-app="LearnerApp" ng-controller="WordCtr">
+		<div class="navbar navbar-static">
+			<div class="container">
+				<div class="navbar-header">
+					<div class="row">
+						<div class="col-md-6">
+							<button type="button" class="btn btn-default navbar-btn" ng-click="openDialog()">Add New Word</button>
+						</div>
+						<div class="col-md-6">
+							<p class="navbar-text navbar-right">
+								<label>Total Words:</label>					
+								<label ng-bind="words.length"></label>
+							</p>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="panel panel-default" ng-repeat="word in words">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-8"><h3 ng-bind="word.text"></h3></div>
+						<div class="col-md-4">
+							<div class="row word-actions">
+								<media-player word="word.text"></media-player>
+								<button class="btn btn-danger" ng-click="removeWord(word)">Remove</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<p ng-bind="word.desc"></p>
+				</div>
+			</div>
+			<div class="jumbotron" ng-if="!words.length">
+				No words yet
+			</div>
+		</div>
+
+		<div id="new-word" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">						
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4>Add New Word</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="control-label">Word</label>
+										<input class="form-control" type="text" ng-model="word.text">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="control-label">Description</label>
+										<input class="form-control" type="text" ng-model="word.desc">
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-default" ng-click="closeDialog()">Close</button>
+						<button class="btn btn-primary" ng-click="addWord()">Save word</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+		<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="bower_components/ngstorage/ngstorage.js"></script>
+		<script type="text/javascript" src="1.js"></script>
+	</body>
+</html>
