@@ -25,38 +25,28 @@
 			$scope.words.splice(index, 1);
 		}
 	})
-	.directive("mediaPlayer", function(MediaService) {
+	.directive("mediaPlayer", function() {
 		return {
 			scope : {
 				word : "="
 			},
 			templateUrl : "/MediaPlayer.html",
 			link : function($scope, element) {
+				var audio = angular.element("<audio></audio>").get(0);
+				element.append(audio);
 				element.find(".play-google").click(function() {
-					MediaService.loadTrack($scope.word, "google");
+					playAudio("google", $scope.word);					
+					
 				});
 				element.find(".play-urban").click(function() {
-					MediaService.loadTrack($scope.word, "urban");
+					playAudio("urban", $scope.word);
 				});
+
+				function playAudio(provider, word) {
+					var audioUrl = "http://kbp-mlav.local:9000/media?provider=" + provider + "&word=" + word;
+					audio.src = audioUrl;
+					audio.play();
+				}
 			}
 		}
-	})
-	.service("MediaService", function($http) {		
-		this.loadTrack = function(word, provider) {
-			$http.get("http://kbp-mlav.local:9000/media", {
-				params : {
-					provider : provider,
-					word : word
-				}
-			}).then(function(data){
-					alert("Data from " + provider);
-			});
-			// $http.get("https://translate.google.com/translate_tts?ie=UTF-8&q=" + word + "&tl=en&total=1&idx=0&textlen=5&client=t").then(function(data) {
-			// 	debugger;
-			// });
-			// $http.get("http://www.urbandictionary.com/define.php?term=" + word).then(function(html){
-			// 	var urls = $(html).find(".play-sound:eq(0)").data("urls");
-			// 	console.log(urls);
-			// });
-		}		
 	})
